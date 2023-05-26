@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    font-size: 14px;
+    height: 100vh;
+    background: linear-gradient(120deg,#a2e2eb 10%,#18b8d4 90%);
+}
+
+.draggle-list {
+    list-style: none;
+    border: 1px solid #535353;
+    color: #535353;
+}
+.draggle-list > li {
+    display: flex;
+    flex: 1;
+    background-color: #fff;
+}
+.draggle-list > li:not(:last-of-type) {
+    border-bottom: 1px solid #535353;
+}
+
+.draggle-list > li > .number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(200, 197, 197);
+    font-size: 24px;
+    user-select: none;
+}
+
+.draggle-list > li > .draggable{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.draggle-list > li > .draggable > .vegetable-name {
+    margin: 0 20px 0 0;
+    user-select: none;
+}
+.draggle-list > li.wrong  .vegetable-name{
+    color: #ff2838;
+}
+.draggle-list > li.right  .vegetable-name{
+    color: rgb(127, 187, 37);
+}

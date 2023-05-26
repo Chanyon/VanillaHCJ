@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100vh;
+    background-image: linear-gradient(135deg, #E2B0FF 10%, #9F44D3 100%);
+}
+
+.magic-btn {
+    display: inline-block;
+    padding: .6rem 2rem;
+    background-image: linear-gradient(135deg,#d07df1 10%, #8f0cb7 100%);
+    border-radius: 8px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    transition: all .3s cubic-bezier(0.215, 0.610,0.255,1);
+}
+.magic-btn:hover {
+    background-image: linear-gradient(135deg, #c937e6 10%, #bd062e 100%);
+}
+
+.boxs {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 60vw;
+    height: 60vh;
+    transition: all .4 ease-in-out;
+}
+.boxs.big {
+    width: 65vw;
+    height: 65vh;
+}
+.boxs .box {
+    width: 15vw;
+    height: 15vh;
+    transition: all .4s ease-in-out;
+    background-size: 60vw 60vh;
+    background-repeat: no-repeat;
+    background-image: url("https://www.eveningwater.com/my-web-projects/js/21/img/1.gif");
+}
+
+.boxs.big .box {
+    transform: rotateZ(360deg);
+}
+
+.boxs .box::before,.boxs .box::after {
+    content: "";
+    position: absolute;
+}
+.boxs .box::before {
+    width: 100%;
+    height: 2vh;
+    background: linear-gradient(135deg,#c074ec 10%,#8a16ce 100%);
+    left: 8px;
+    bottom: -2vh;
+    transform: skewX(45deg);
+}
+
+.boxs .box::after {
+    width: 2vh;
+    height: 100%;
+    background: linear-gradient(135deg,#c074ec 10%,#8a16ce 100%);
+    top: 8px;
+    right: -2vh;
+    transform: skewY(45deg);
+}

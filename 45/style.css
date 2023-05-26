@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 14px;
+}
+
+.nav-btn {
+    border: 0;
+    color: #fff;
+    background-color: transparent;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.nav-btn.open-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav.nav-first {
+    /* position: relative; */
+    width: 60%;
+    max-width: 480px;
+    /* min-width: 320px; */
+    transition-delay: .4s;
+    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+}
+
+.nav.nav-second {
+    position: relative;
+    width: 95%;
+    /* max-width: 450px; */
+    transition-delay: .2s;
+    background-image: linear-gradient(135deg,#FEC163 10%, #DE4313 100%);
+}
+
+.nav.nav-third {
+    position: relative;
+    width: 95%;
+    /* max-width: 410px; */
+    padding: 40px;
+    transition-delay: 0s;
+    background-image: linear-gradient(135deg,#e99a2b 10%, #e4562b 100%);
+}
+
+.nav.visible {
+    transform: translateX(0);
+}
+
+.nav.nav-first.visible {
+    transition-delay: 0s;
+}
+.nav.nav-second.visible {
+    transition-delay: .2s;
+}
+.nav.nav-third.visible {
+    transition-delay: .4s;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(135deg, #ebd277 10%, #da3131 100%);
+}
+
+.content img {
+    border-radius: 50%;
+    width: 150px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+}
+.nav-third img {
+    border-radius: 50%;
+    width: 80px;
+}
+
+.list {
+    list-style: none;
+}
+.list li {
+    margin: 20px 0;
+}
+
+.list li a,.list li{
+    color: #f6f7f8;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.list .next-list {
+    padding-left: 20px;
+}
+
+.list li:hover,.list li a:hover{
+    color: #2396ef;
+}

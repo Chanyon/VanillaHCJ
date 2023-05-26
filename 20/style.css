@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: radial-gradient(circle at 50% 30%,#d7dff0,#8d31d8),
+    linear-gradient(90deg, #d7dff0, #8d31d8),
+    linear-gradient(180deg, #d7dff0, #8d31d8),
+    radial-gradient(ellipse at bottom center,#62b1f1,#27b4ec);
+
+}
+.btn{
+    display: inline-block;
+    position: relative;
+    outline: none;
+    padding:20px 35px;
+    border:none;
+    border-radius:5px;
+    background-image:linear-gradient(90deg,#f19b62,#ec7627),
+    radial-gradient(circle,#f0df7d,#d8cd31);
+    color: #fff;
+    font-size: 18px;
+    overflow: hidden;
+    letter-spacing:2px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btn > .circle{
+    width:100px;
+    height: 100px;
+    position:absolute;
+    transform:translate(-50%,-50%) scale(0);
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    background-image:linear-gradient(to left,#f0dec0,#f0a574),radial-gradient(circle,#f3ebbf,#ece57e);
+    border-radius: 50%;
+    animation:scale .3s ease-in-out;
+}
+@keyframes scale{
+    to{
+        transform:translate(-50%,-50%) scale(1);
+        opacity: 1;
+    }
+}

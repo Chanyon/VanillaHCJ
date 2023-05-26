@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>message</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      position: relative;
+    }
+
+    .message {
+      position: absolute;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      min-width: 300px;
+      padding: 16px 17px;
+      border: 1px solid #edf2fc;
+      border-radius: 6px;
+      background-color: #edf2fc;
+      /* z-index: 1000; */
+    }
+
+    .message>.message-close-btn {
+      position: absolute;
+      right: 15px;
+      color: #c0c0c4;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .message>.message-close-btn:hover,
+    .message>.message-close-btn:active {
+      color: #909399;
+    }
+
+    .message p {
+      line-height: 1;
+      font-size: 14px;
+      color: #909399;
+    }
+
+    .message.message-center {
+      justify-content: center;
+    }
+
+    .message.message-success {
+      background-color: #095cc9;
+      border-color: #e1f3d8;
+    }
+
+    .message.message-warring {
+      justify-content: center;
+    }
+
+    .message.message-error {
+      background-color: #f34141;
+      border-color: #fef0f0;
+    }
+    .message.message-error p{
+      color: #fff;
+    }
+    .message.message-success p {
+      color: #fff;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- <div class="message">
+    <p>这是一个提示框</p>
+    <i class="message-close-btn">&times;</i>
+  </div>
+  <div class="message message-error">
+    <p>这是一个提示框</p>
+    <i class="message-close-btn">&times;</i>
+  </div> -->
+  <script>
+    let typeMap = {
+      info: "info",
+      warning: "warning",
+      success: "success",
+      error: "error",
+    };
+    let messageOption = {
+      type: "success",
+      closeTime: 0,
+      center: false,
+      showClose: true,
+      content: "content",
+    };
+    class Message{
+      constructor(options){
+        this.options = options;
+        this.init(this.options);
+      }
+      init(options){
+        document.body.appendChild(this.create(options));
+        if(options.closeTime > 0) this.close(options.container,options.closeTime);
+        if(options.close){
+          options.close.addEventListener("click",e =>{
+            this.close(e.currentTarget.parentElement,0);
+          })
+        }
+      }
+      create(options){
+        if(!options.showClose && options.closeTime <= 0){
+          options.showClose = true;
+        }
+        let element = document.createElement("div");
+        element.className = `message message-${options.type}`;
+        if(options.center) element.classList.add("message-center");
+
+        let btn = document.createElement("i");
+        btn.classList.add("message-close-btn");
+        btn.innerHTML = "&times;";
+        let p = document.createElement("p");
+        p.innerText = options.content;
+
+        if(options.showClose) element.appendChild(btn);
+        element.appendChild(p);
+        options.container = element;
+        options.close = btn;
+        return element;
+      }
+      close(ele,closeTime){
+        setTimeout(() => {
+          if(ele && ele.length){
+            ele.forEach((item,i) => {
+                item.parentElement.removeChild(item);
+            });
+          }else if(ele){
+            if(ele.parentElement){
+              ele.parentElement.removeChild(ele);
+            }
+          }
+        },closeTime * 10);
+      }
+      setTop(ele){
+        if(!ele && !ele.length){ return; }
+        const height = ele[0].offsetHeight;
+        ele.forEach((item,i) => {
+          item.style.top = `${25 * (i + 1) + height * i}`;
+        })
+      }
+    }
+    new Message(messageOption);
+  </script>
+</body>
+
+</html>

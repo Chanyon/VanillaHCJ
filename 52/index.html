@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roll</title>
+  <style>
+    body{
+      min-height: 4000px;
+    }
+    .roll {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: royalblue;
+      transition: all .5s;
+    }
+  </style>
+</head>
+<body>
+  <div class="roll"></div>
+  <script>
+    const rollEle = document.querySelector(".roll");
+    window.addEventListener("scroll", function(e) {
+      e.preventDefault();
+      if (document.documentElement.scrollTop > window.innerHeight / 2) {
+        rollEle.style.top = `${document.documentElement.scrollTop + 200}px`;
+      } else {
+        rollEle.style.top = 20 + "px";
+      }
+    });
+
+    function throttle(fn, wait = 1000) {
+      let timer = null;
+      return function(...args) {
+        const self = this;
+        if (!timer) {
+          timer = setTimeout(function() {
+            fn.apply(self, args);
+          }, wait);
+          clearTimeout(timer);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

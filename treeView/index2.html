@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-treemap.min.js"></script>
+    <title>TreeView2</title>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        // const container = document.querySelector("#container");
+        anychart.onDocumentReady(function () {
+            const dataSet = [
+                {
+                    name: "Galaxies",
+                    children: [
+                        {
+                            name: "Elliptical", children: [
+                                { name: "IC 1101", value: 4000000 },
+                                { name: "Hercules A", value: 1500000 },
+                                { name: "A2261-BCG", value: 1000000 },
+                                { name: "ESO 306-17", value: 1000000 },
+                                { name: "ESO 444-46", value: 402200 },
+                            ]
+                        },
+                        {
+                            name: "Spiral", children: [
+                                { name: "Rubin's Galaxy", value: 832000 },
+                                { name: "Comet Galaxy", value: 600000 },
+                                { name: "Condor Galaxy", value: 522000 },
+                                { name: "Tadpole Galaxy", value: 280000 },
+                                { name: "Andromeda Galaxy", value: 220000 }
+                            ]
+                        }
+                    ]
+                }
+            ];
+            const chart = anychart.treeMap(dataSet, "as-tree");
+            chart.title("the 10 largest Galaxies in the known universe.");
+            chart.container("container");
+            chart.maxDepth(2);
+            chart.normal().fill("#b46fc2");
+            chart.sort("asc");
+            chart.draw();
+        });
+    </script>
+</body>
+
+</html>

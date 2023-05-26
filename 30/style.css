@@ -1,0 +1,104 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  text-align: center;
+  background-image: linear-gradient(135deg,#fff720 10%,#3cd500 100%);
+}
+h3 {
+  height:40px;
+  margin-top:2rem;
+  color: #fff;
+}
+small {
+  color: #fff;
+}
+small > span {
+  color: #f01000;
+}
+.btn {
+  display: inline-block;
+  padding: .4rem .3rem;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background-image: linear-gradient(135deg, #70F570 10%, #49C628 100%);
+  outline: none;
+}
+
+.btn:hover{
+  transform:scale(1.2);
+}
+.heart {
+  display:inline-block;
+  position: relative;
+  margin:0 15px;
+  width: 25px;
+  height: 25px;
+  transform:rotate(45deg);
+  background-color: #f01000;
+}
+.heart-scale {
+  animation: scale .3s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+}
+.heart.grow{
+  position: absolute;
+  animation: grow .5s ease-in-out;
+  transform:scale(0) rotate(45deg);
+  z-index: 100;
+}
+.heart::before,.heart::after{
+  content: '';
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  background-color: #f01000;
+  
+}
+.heart::before{
+  left:-15px;
+  top:0;
+}
+.heart::after{
+  left:0px;
+  top:-15px;
+}
+
+.love {
+  position: relative;
+  width:330px;
+  height:60vh;
+  max-width: 100%;
+  margin: 2rem auto;
+  background: url("https://www.eveningwater.com/my-web-projects/js/21/img/2.gif") no-repeat center/cover;
+  box-shadow: 0 5px 15px #252525;
+  cursor:pointer;
+  border-radius: 5px;
+  overflow: hidden;
+}
+@keyframes grow {
+  to{
+    transform: scale(5) rotate(45deg);
+    opacity: 0;
+  }
+}
+@keyframes scale {
+  0% {
+    transform:scale(1) rotate(45deg);
+  }
+  30%,60%{
+    transform:scale(1.2) rotate(45deg);
+  }
+  90%,99%{
+    transform:scale(1.6) rotate(65deg);
+  }
+  100%{
+    transform:scale(1.2) rotate(45deg);
+  }
+}

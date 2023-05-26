@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 14px;
+    height: 100vh;
+    background: linear-gradient(120deg,#a2e2eb 10%,#18b8d4 90%);
+}
+
+.k1-kinetic {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 90px;
+}
+
+.k1-kinetic::before,.k1-kinetic::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border: 100px solid transparent;
+}
+
+.k1-kinetic.square::before,.k1-kinetic.square::after{
+    border-image: radial-gradient(closest-corner circle at 50% top,#e9b998,#d37218);
+}
+
+.k1-kinetic.angle::before,.k1-kinetic.angle::after{
+    border-bottom-color: #d37218;
+}
+
+.k1-kinetic::before{
+    transform: rotate(90deg);
+    animation: rotateA 4s linear infinite;
+}
+
+.k1-kinetic::after{
+    animation: rotateB 4s linear infinite;
+}
+
+@keyframes rotateA {
+    0%,25%{
+        transform: rotate(0deg);
+    }
+    50%,75%{
+        transform: rotate(180deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateB {
+    0%,25%{
+        transform: rotate(90deg);
+    }
+    50%,75%{
+        transform: rotate(270deg);
+    }
+    100%{
+        transform: rotate(450deg);
+    }
+}
+
+@media (max-width: 600px) {
+    body{
+        flex-direction: column;
+    }
+}

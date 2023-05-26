@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoMvc</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body>
+    <div id="todo-app">
+      <header>
+        <h2>todos</h2>
+        <input type="text" id="new-todo" class="box" placeholder="What needs to be done?"></input>
+      </header>
+      <section>
+        <div id="todo">
+          <!-- 任务列表 -->
+          <ul></ul>
+          <div class="box card hide-card" id="card">
+            <span>0</span>
+            <label for="all" class="show-border">All</label>
+            <input type="radio" id="all" name="btn" checked="true">
+            <label for="active">Active</label>
+            <input type="radio" id="active" name="btn">
+            <label for="completed">Completed</label>
+            <input type="radio" id="completed" name="btn">
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div>
+          by DCy
+        </div>
+      </footer>
+    </div>
+    <script src="./index.js">
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100vh;
+    background-image: linear-gradient(135deg, #E2B0FF 10%, #9F44D3 100%);
+}
+
+.panel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    padding: 30px;
+    font-size: 90%;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 5px 8px rgba(0, 0, 0, 0.45);
+}
+
+.panel-container .send-page,
+.panel-container .receive-page {
+    transition: display .4s cubic-bezier(0.25,0.46,0.45,0.95);
+}
+
+.panel-container .send-page.hide,
+.panel-container .receive-page.hide{
+    display: none;
+}
+
+.panel-container strong {
+    line-height: 22px;
+    color: #ffa8ab;
+}
+.panel-container >.send-page > .ratings-container {
+    display: flex;
+    margin: 20px 0;
+}
+.panel-container  .ratings-container .rating {
+    flex: 1;
+    padding: 20px;
+    margin: 10px 5px;
+    cursor: pointer;
+}
+.panel-container  .ratings-container .rating.active {
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
+}
+
+.panel-container  .ratings-container .rating > img {
+    width: 40px;
+}
+
+.panel-container  .ratings-container .rating > small {
+    display: inline-block;
+    margin: 10px 0 0;
+    color: #535455;
+}
+
+.panel-container .btn {
+    padding: 6px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    background-image: linear-gradient(135deg, #fdd819 10%, #e80505 100%);
+}
+.panel-container .btn:hover {
+    background-image: linear-gradient( 135deg, #eedb7b 10%, #e75252 100%);
+}
+
+.panel-container .selectRating {
+    color: #e9d631;
+}
+
+.panel-container .receive-page p {
+    line-height: 1.5px;
+    color: #969696;
+    margin: 1rem 0;
+}
+
+.heart {
+    width: 25px;
+    height: 25px;
+    background-color: #f01000;
+    position: relative;
+    display: block;
+    margin: 1rem auto;
+    transform: rotate(45deg);
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #f01000;
+}
+
+.heart::before {
+    left: -15px;
+    top: 0;
+}
+
+.heart::after {
+    left: 0;
+    top: -15px;
+}

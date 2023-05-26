@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://www.unpkg.com/ew-color-picker/dist/ew-color-picker.min.css">
+</head>
+
+<body>
+    <div class="tool-box">
+        <button class="btn decrease" id="decrease">-</button>
+        <input type="text" id="size" class="size">
+        <button class="btn increase" id="increase">+</button>
+        <div id="color" class="color-picker"></div>
+        <button class="clear btn" id="clear">&times;</button>
+    </div>
+    <canvas class="draw-board" id="draw-board" width="800" height="700"></canvas>
+    <script src="https://www.unpkg.com/ew-color-picker/dist/ew-color-picker.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
