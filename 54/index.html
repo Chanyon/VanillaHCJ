@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AudioView</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #canvas {
+      margin-top: 20px;
+      width: 600px;
+      height: 400px;
+    }
+    #ipt {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <label for="">选择音乐文件：</label>
+      <input type="file" accept="audio/*" name="" id="ipt">
+    </div>
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    /*
+    * 参考
+    * https://nnnewb.github.io/blog/p/audiocontext%E6%8A%80%E6%9C%AF%E5%92%8C%E9%9F%B3%E4%B9%90%E5%8F%AF%E8%A7%86%E5%8C%961/
+    * https://developer.mozilla.org/zh-CN/docs/Web/API/BaseAudioContext/createAnalyser
+    * use `AudioContext` 创建分析器节点，然后用 requestAnimationFrame() 来反复获取时域数据，
+    * 并绘制出当前音频输入的“示波器风格”输出
+    */
+    const canvas = document.querySelector("#canvas");
+    const canvasCtx = canvas.getContext("2d");
+    const ipt = document.querySelector("#ipt");
+    const audioCtx = new AudioContext();
+    const audioSourceNode = audioCtx.createBufferSource();
+    const audioAnalyser = audioCtx.createAnalyser();
+    audioAnalyser.fftSize = 512;
+    
+    ipt.addEventListener("change", e => {
+      const render = new FileReader();
+      render.readAsArrayBuffer(e.target.files[0]);
+      render.onload = event => {
+        //decode
+        audioCtx.decodeAudioData(event.target.result).then(decode => {
+          audioSourceNode.connect(audioAnalyser);
+          audioAnalyser.connect(audioCtx.destination);
+          audioSourceNode.buffer = decode;
+          audioSourceNode.start(0);
+        });
+      };
+    });
+    
+    const len = audioAnalyser.frequencyBinCount;
+    let dataArray = new Uint8Array(audioAnalyser.frequencyBinCount);
+    audioAnalyser.getByteTimeDomainData(dataArray);
+    function random(max_num) {
+      return Math.floor(Math.random() * max_num);
+    }
+    function draw() {
+      requestAnimationFrame(draw);
+      audioAnalyser.getByteTimeDomainData(dataArray);
+      //canvas
+      canvasCtx.fillStyle = `rgb(10,20,30)`;
+      canvasCtx.fillRect(0,0,canvas.width,canvas.height);
+      canvasCtx.lineWidth = 2;
+      canvasCtx.strokeStyle = `rgb(${random(255)},${random(255)},${random(255)})`;
+      canvasCtx.beginPath();
+      const sliceWidth = canvas.width * 1.0 / len;
+      let x = 0;
+      for (let i = 0; i < len; i++) {
+        const val = dataArray[i] / 128.0;
+        const y = val * canvas.height / 2;
+        if (i === 0) {
+          canvasCtx.moveTo(x, y);
+        }
+        canvasCtx.lineTo(x, y);
+        x += sliceWidth;
+      }
+      canvasCtx.lineTo(canvas.width, canvas.height / 2);
+      canvasCtx.stroke();
+    }
+    draw();
+  </script>
+</body>
+</html>
