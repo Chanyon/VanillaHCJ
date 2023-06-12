@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioView2</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      #canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(24, 28, 36);
+      }
+
+      .text {
+        color: ghostwhite;
+        font-size: 10em;
+        background:linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+        linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+        linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);;
+        animation: animate 2s ease-in 1s infinite reverse;
+      }
+
+      @keyframes animate {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+
+        100%{
+          transform: rotate(180deg) scale(1.5);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <canvas id="canvas"></canvas>
+      <div class="text">
+      HELLO
+    </div>
+    </div>
+    <script>
+      /*
+      * 参考
+      * https://nnnewb.github.io/blog/p/audiocontext%E6%8A%80%E6%9C%AF%E5%92%8C%E9%9F%B3%E4%B9%90%E5%8F%AF%E8%A7%86%E5%8C%961/
+      * https://developer.mozilla.org/zh-CN/docs/Web/API/BaseAudioContext/createAnalyser
+      * use `AudioContext` 创建分析器节点，然后用 requestAnimationFrame() 来反复获取时域数据，
+      * 并绘制出当前音频输入的“示波器风格”输出
+      */
+      const canvas = document.querySelector("#canvas");
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      const ctx = canvas.getContext("2d");
+      // {
+      //   let energy = 255;
+      //   let radius = 50;
+      //   let rate = -1;
+
+      //   function draw() {
+      //     requestAnimationFrame(draw);
+      //     energy += rate;
+      //     if (energy <= 0 || energy >= 255) {
+      //       rate = rate * (-1);
+      //     }
+      //     const r = radius + energy * 0.2;
+      //     ctx.fillStyle = "black";
+      //     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      //     const gradient = ctx.createRadialGradient(100, 100, 0, 100, 100, 50);
+      //     gradient.addColorStop(0.025, "#fff");
+      //     gradient.addColorStop(0.1, "rgba(255, 255, 255, 0.9)");
+      //     gradient.addColorStop(0.25, `hsla(198, 66%, ${Math.min(75 + energy * 0.01, 100)}%, 0.9)`);
+      //     gradient.addColorStop(0.75, `hsla(150, 64%, ${Math.min(33 + energy * 0.01, 100)}%, 0.4)`);
+      //     gradient.addColorStop(1, "hsla(198, 64%, 33%, 0)");
+      //     ctx.fillStyle = gradient;
+      //     ctx.beginPath();
+      //     ctx.arc(100, 100, r, 0, Math.PI * 2);
+      //     ctx.fill();
+      //   }
+      // }
+
+      let energy = 255;
+      let rate = -1;
+      class Star {
+        constructor({ x, y, radius, lightness, orbit, speed,t }) {
+          this.x = x
+          this.y = y
+          this.radius = radius
+          this.lightness = lightness
+          this.orbit = orbit
+          this.speed = speed
+          this.t = t
+        }
+
+        draw(ctx, energy) {
+          const r = this.radius + energy * 0.01;
+          const gradient = ctx.createRadialGradient(
+            this.x,
+            this.y,
+            0,
+            this.x,
+            this.y,
+            r
+          );
+          gradient.addColorStop(0.025, "#fff");
+          gradient.addColorStop(0.1, "rgba(255, 255, 255, 0.9)");
+          gradient.addColorStop(0.25, `hsla(198, 66%, ${Math.min(75 + energy * 0.01, 100)}%, 0.9)`);
+          gradient.addColorStop(0.75, `hsla(190, 64%, ${Math.min(33 + energy * 0.01, 100)}%, 0.4)`);
+          gradient.addColorStop(1, "hsla(198, 64%, 33%, 0)");
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // const star = new Star({ x: 200, y: 200, radius: 100, lightness: 50 })
+      // function reader() {
+      //   requestAnimationFrame(reader)
+      //   energy += rate
+      //   if(energy <=0 || energy >= 255) rate = -1 * rate
+      //   ctx.fillStyle = "black";
+      //   ctx.fillRect(0, 0, canvas.width, canvas.height);
+      //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      //   star.draw(ctx, energy);
+      // }
+      // reader();
+
+      class Galaxy {
+        constructor(canvas) {
+          this.stars = []
+          this.canvas = canvas
+          this.ctx = canvas.getContext("2d")
+          this.energy = 255
+          this.rate = -2
+        }
+
+        init(num) {
+          const longerAxis = Math.max(this.canvas.width,this.canvas.height)
+          const diameter = Math.floor(
+            Math.sqrt(longerAxis * longerAxis + longerAxis * longerAxis)
+          )
+          const maxOrbit = diameter / 2
+          for (let i = 0; i < num; i++) {
+            this.stars.push(
+              new Star({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                radius: Math.random() * 10 + 1,
+                lightness: Math.random() * 30 + 20,
+                orbit: Math.random() * maxOrbit,
+                speed: Math.random() / 100,
+                t: Math.random() * 100,
+              })
+            ); 
+          }
+        }
+
+        render() {
+          this.energy += this.rate
+          if(this.energy <=0 || this.energy >= 255) this.rate = -1 * this.rate
+          this.ctx.fillStyle = "black"
+          this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+          for (const star of this.stars) {
+            star.draw(this.ctx, this.energy);
+          }
+        }
+
+        move() {
+          for (const star of this.stars) {
+            star.x = this.canvas.width / 2 + Math.cos(star.t) * star.orbit
+            star.y = this.canvas.height / 2 +  Math.sin(star.t) * star.orbit / 2
+            star.t += star.speed
+          }
+        }
+      }
+
+      const galaxy = new Galaxy(canvas);
+      galaxy.init(100);
+      function animate() {
+        requestAnimationFrame(animate)
+        galaxy.render();
+        galaxy.move();
+      }
+      animate();
+    </script>
+  </body>
+
+</html>
